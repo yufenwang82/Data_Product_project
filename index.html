@@ -1,117 +1,168 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset='utf-8'>
-	<title>Course Project- Shiny Application and Reproducible Pitch</title>
-	<meta name="description" content="Course Project- Shiny Application and Reproducible Pitch">
-	<meta name="author" content="Yu-Fen Wang">
-	<meta name="generator" content="slidify" />
-	
-	<!-- LOAD STYLE SHEETS -->
-	<link rel="stylesheet" href="libraries/frameworks/html5slides/default/styles.css">
-	<link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />  <link rel="stylesheet" href = "assets/css/ribbons.css">
+  <title>Data Product Course Project-Reproducible Pitch</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Data Product Course Project-Reproducible Pitch">
+  <meta name="author" content="Yu-Fen Wang">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
   
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
 </head>
-<body style='display: none'>
-	<section class='slides layout-regular template-regular'>
-     <article class="" id="slide-1" style="background:;">
-  <h3>Pitch</h3>
-  <p>This is the pitch presentation of the app I created as the Data Product course project 
-In this presentation, I will enclose the code I made the app and the link to the app</p>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>Data Product Course Project-Reproducible Pitch</h1>
+    <h2></h2>
+    <p>Yu-Fen Wang<br/></p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
 
-</article>
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Pitch Intro</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>This is the pitch presentation of the app I created as the Data Product course project In this presentation, I will enclose the code I made the app and the link to the app</p>
 
-<article class="" id="slide-2" style="background:;">
-  <h3>The function of this app</h3>
-  <p>The data covers the Daily Closing Prices of Major European Stock Indices from 1991-1998
-The indices are: Germany DAX (Ibis), Switzerland SMI, France CAC, and UK FTSE.</p>
+  </article>
+  <!-- Presenter Notes -->
+</slide>
 
-<p>I created an app in which you can choose one of these 4 indices and it will automatively plot its closing price from 1991-1998 for you. </p>
+<slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h2>The function of this app</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The data covers the Daily Closing Prices of Major European Stock Indices from 1991-1998 The indices are: Germany DAX (Ibis), Switzerland SMI, France CAC, and UK FTSE.
+I created an app in which you can choose one of these 4 indices and it will automatively plot its closing price from 1991-1998 for you.</p>
 
-</article>
+  </article>
+  <!-- Presenter Notes -->
+</slide>
 
-<article class="" id="slide-3" style="background:;">
-  <h3>Code for the server.R</h3>
-  <pre><code class="r">library(shiny)
+<slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>The code for making app</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">library(shiny)
 library(datasets)
 data(&quot;EuStockMarkets&quot;)
-
-# Define server logic required to draw a histogram
-shinyServer(function(input, output) {
-
-  output$Plot &lt;- renderPlot({
-     # generate dataset from input
+shinyApp(
+    ui=fluidPage(
+    titlePanel(&quot;Closing Prices of Major European Stock from 1991 to 1998&quot;),
+    sidebarLayout(
+        sidebarPanel(
+        radioButtons(&quot;index&quot;, &quot;Please Select Index:&quot;,
+                     c(&quot;DAX&quot; = &quot;DAX&quot;,
+                       &quot;SMI&quot; = &quot;SMI&quot;,
+                       &quot;CAC&quot; = &quot;CAC&quot;,
+                       &quot;FTSE&quot; = &quot;FTSE&quot;))))),
+    server=(function(input, output){
+       output$Plot &lt;- renderPlot({
     if (input$index==&quot;DAX&quot;){
         plot(EuStockMarkets[,1],ylab=&quot;DAX closing price&quot;,xlab=&quot;Year&quot;)
     } else if (input$index==&quot;SMI&quot;){
         plot(EuStockMarkets[,2],ylab=&quot;SMI closing price&quot;,xlab=&quot;Year&quot;)
     }else if (input$index==&quot;CAC&quot;){
         plot(EuStockMarkets[,3],ylab=&quot;CAC closing price&quot;,xlab=&quot;Year&quot;)
-    }else{
-        plot(EuStockMarkets[,4],ylab=&quot;FTSE closing price&quot;,xlab=&quot;Year&quot;)
-    }
-
-
-  })
-
-})
+    }else{plot(EuStockMarkets[,4],ylab=&quot;FTSE closing price&quot;,xlab=&quot;Year&quot;)
+    }})}))        
 </code></pre>
 
-</article>
-
-<article class="" id="slide-4" style="background:;">
-  <h3>code for the ui.R</h3>
-  <pre><code class="r">library(shiny)
-library(datasets)
-data(&quot;EuStockMarkets&quot;)
-
-# Define UI for application that draws a histogram
-shinyUI&lt;-fluidPage(
-
-  # Application title
-  titlePanel(&quot;Closing Prices of Major European Stock from 1991 to 1998&quot;),
-
-  # Sidebar with a slider input for number of bins 
-  sidebarLayout(
-    sidebarPanel(
-       ## select index type
-        radioButtons(&quot;index&quot;, &quot;Please Select Index:&quot;,
-                     c(&quot;DAX&quot; = &quot;DAX&quot;,
-                       &quot;SMI&quot; = &quot;SMI&quot;,
-                       &quot;CAC&quot; = &quot;CAC&quot;,
-                       &quot;FTSE&quot; = &quot;FTSE&quot;))
-    ),
-
-    # Show a plot of the generated distribution
-    mainPanel(
-       plotOutput(&quot;Plot&quot;)
-    )
-  )
-)
+<pre><code>## Error in sidebarLayout(sidebarPanel(radioButtons(&quot;index&quot;, &quot;Please Select Index:&quot;, : argument &quot;mainPanel&quot; is missing, with no default
 </code></pre>
 
-</article>
+  </article>
+  <!-- Presenter Notes -->
+</slide>
 
-<article class="" id="slide-5" style="background:;">
-  <h3>you may find the link as followed:</h3>
-  <p><a href="https://andrea-yufen-wang.shinyapps.io/Data_product_project/">https://andrea-yufen-wang.shinyapps.io/Data_product_project/</a></p>
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>links for app, github and presentation</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>You may fint the app at: <a href="https://andrea-yufen-wang.shinyapps.io/Data_product_project/">https://andrea-yufen-wang.shinyapps.io/Data_product_project/</a></p>
 
-<p>Thank you!</p>
+<p>link to github for the app:
+<a href="https://github.com/yufenwang82/Data_Product_project">https://github.com/yufenwang82/Data_Product_project</a></p>
 
-</article>
+<h2>Thank you!</h2>
 
-<article class="" id="slide-6" style="background:;">
-  <h3>NA</h3>
-  
-</article>
+  </article>
+  <!-- Presenter Notes -->
+</slide>
 
-  </section>
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='Pitch Intro'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='The function of this app'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='The code for making app'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='links for app, github and presentation'>
+         4
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
 </body>
-  <!-- LOAD JAVASCRIPTS  -->
-	<script src='libraries/frameworks/html5slides/default/slides.js'></script>
-	<!-- LOAD HIGHLIGHTER JS FILES -->
-	<script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
-	<script>hljs.initHighlightingOnLoad();</script>
-	<!-- DONE LOADING HIGHLIGHTER JS FILES -->
-	 
-	</html>
+  <!-- Load Javascripts for Widgets -->
+  
+  <script src="shared/shiny.js" type="text/javascript"></script>
+  <script src="shared/slider/js/jquery.slider.min.js"></script>
+  <script src="shared/bootstrap/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="shared/slider/css/jquery.slider.min.css"></link>
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
